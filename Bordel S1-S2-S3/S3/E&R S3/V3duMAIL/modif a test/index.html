@@ -1,0 +1,49 @@
+<!DOCTYPE HTML><html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Compteur d'eau</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style.css" >
+</head>
+<body>
+  <header>
+    <h2>Compteur d'eau</h2>
+  </header>
+  <main>
+    <p class="top">
+      Date de debut : <input id="dd" type="date" value="2021-01-01">
+      Date de fin : <input id="df" type="date" value="2022-01-01">
+      <button id="btn" onclick="updateBtn()">ok</button>
+    </p>
+    <p>
+    <iframe name="Tableau Total" 
+              width="450" id='t1' 
+              height="260" 
+              style="border: 1px solid red;"
+              src="https://thingspeak.com/channels/1566233/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=8000&title=Consomation+Total&type=line&xaxis=Date&yaxis=Volume+en+litre">
+    </iframe>
+    </p>
+
+    <p>
+    <iframe name="Tableau Debit" 
+              width="450" id='t2' 
+              height="260" 
+              style="border: 1px solid red;"
+              src="https://thingspeak.com/channels/1566233/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=8000&title=Debit+Instantane&type=line&xaxis=Date&yaxis=Litre%28s%29+par+seconde">
+    </iframe>
+    </p>
+
+    <p>
+    <iframe name="Tableau RSSI" 
+              width="450" id='t3' 
+              height="260" 
+              style="border: 1px solid red;"
+              src="https://thingspeak.com/channels/1566233/charts/2?bgcolor=%23ffffff&color=%23ff4633&dynamic=true&results=8000&title=RSSI&type=line&xaxis=Date&yaxis=Puissance">
+    </iframe>
+    </p>
+  </main>
+
+<script src="./script.js"></script>
+</body>
+</html>

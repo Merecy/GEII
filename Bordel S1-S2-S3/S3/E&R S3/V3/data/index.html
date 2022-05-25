@@ -1,0 +1,64 @@
+<!DOCTYPE HTML><html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Compteur d'eau</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+    header {
+      margin: 0;
+      padding-top: 5vh;
+      padding-bottom: 5vh;
+      overflow: hidden;
+      background-image: url(winter);
+      background-size: cover;
+      color: white;
+    }
+    h2 {
+      font-size: 2.0rem;
+    }
+    p { font-size: 1.2rem; }
+    .units { font-size: 1.2rem; }
+    .readings { font-size: 2.0rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Compteur d'eau</h2>
+  </header>
+<main>
+  <p>
+	<form action='/' method='POST'>
+	Date de debut : <input name="Date de debut" type="date" value="2022-01-01" onclick=tableau1()>
+	Date de fin : <input name="Date de fin" type="date" value="2023-01-01">
+	</form>
+  </p>
+  <p>
+	<iframe name="Tableau Total" width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1566233/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=120&title=Consomation+total&type=line&xaxis=Date&yaxis=Litres"></iframe>
+  </p>
+
+  <p>
+	<iframe name="Tabelau RSSI" "width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1566233/charts/2?bgcolor=%23ffffff&color=%23ff4633&dynamic=true&results=120&title=RSSI&type=line&xaxis=Date&yaxis=Puissance"></iframe>
+  </p>
+
+  <p>
+	<iframe name="Tableau Debit" width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1566233/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=120&title=Debit+Instantane&type=line&xaxis=Date&yaxis=Litre%28s%29+par+seconde"></iframe>
+  </p>
+</main>
+</body>
+</html>
+
+<script>
+function tableau1(element) {
+var T1_iframe = document.getElementsByName("Date de debut");
+console.log(T1_iframe)
+element.setAttribute('src', '');
+}
+
+
+</script>

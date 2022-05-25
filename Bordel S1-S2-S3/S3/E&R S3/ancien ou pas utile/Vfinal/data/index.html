@@ -1,0 +1,89 @@
+<!DOCTYPE HTML><html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="icon" type="x-icon" href="favicon.ico">
+  <title>Eau</title>
+  <style>
+    body {
+      min-width: 310px;
+      max-width: 800px;
+      height: 400px;
+      margin: 0 auto;
+    }
+    h2 {
+      font-family: Arial;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+    p {
+      background-image: url("eau.jpg");
+      background-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Compteur d'eau</h2>
+    <p>LoRa RSSI: <span id="rssi" class="readings">%rssi%</span></p>
+    <p>debit (L/H): <span id="water" class="readings">%water%</span></p>
+  </header>
+  <div id="chart-water" class="container"></div>
+</body>
+<script>
+var chartW = new Highcharts.Chart({
+  chart:{ renderTo : 'chart-water' },
+  title: { text: '' },
+  series: [{
+    showInLegend:false,
+    data: []
+  }],
+  plotOptions: {
+    line: { animation: true,
+      dataLabels: { enabled: true }
+    },
+    series: { color: '#00b9ff' }
+  },
+  xAxis: { type: 'datetime',
+    dateTimeLabelFormats: { second: '%H:%M:%S' }
+  },
+  yAxis: {
+    title: { text: 'Debit L par Heure' }
+  },
+  credits: { enabled: false }
+});
+setInterval(function ( ) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var x = (new Date()).getTime(),
+          y = parseFloat(this.responseText);
+      console.log(this.responseText);
+      if(chartW.series[0].data.length > 40) {
+        chartW.series[0].addPoint([x, y], true, true, true);
+      } else {
+        chartW.series[0].addPoint([x, y], true, false, true);
+      }
+    }
+  };
+  xhttp.open("GET", "/water", true);
+  xhttp.send();
+}, 1000 ) ;
+
+
+setInterval(updateValues, 1000, "rssi");
+setInterval(updateValues, 1000, "water");
+
+function updateValues(value) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById(value).innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "/" + value, true);
+  xhttp.send();
+}
+</script>
+</html>

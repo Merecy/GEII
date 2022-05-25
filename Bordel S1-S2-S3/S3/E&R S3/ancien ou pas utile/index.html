@@ -1,0 +1,95 @@
+ <!DOCTYPE HTML><html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <link rel="icon" href="data:,">
+  <title>L'eau y en aura plus dans 30 ans !</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+    header {
+      margin: 0;
+      padding-top: 5vh;
+      padding-bottom: 5vh;
+      overflow: hidden;
+      background-image: url(eau);
+      background-size: cover;
+      color: white;
+    }
+    h2 {
+      font-size: 2.0rem;
+    }
+    p { font-size: 1.2rem; }
+    .units { font-size: 1.2rem; }
+    .readings { font-size: 2.0rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Compteur d'eau</h2>
+    <p>LoRa RSSI: <span id="rssi">%rssi%</span></p>
+  </header>
+<main>
+  <p>
+    <i class="fas fa-tint" style="color:#00add6;"></i> Consomation d'eau: <span id="water" class="readings">%water%</span> litres par heure.
+    <div id="chart-water" class="container"></div>
+  </p>
+</main>
+
+<script>
+var chartW = new Highcharts.Chart({
+  chart:{ renderTo : 'chart-water' },
+  title: { text: 'ESP32 Water' },
+  series: [{
+    showInLegend: false,
+    data: []
+  }],
+  plotOptions: {
+    line: { animation: false,
+      dataLabels: { enabled: true }
+    },
+    series: { color: '#18009c' }
+  },
+  xAxis: { type: 'datetime',
+    dateTimeLabelFormats: { second: '%H:%M:%S' }
+  },
+  yAxis: {
+    title: { text: 'Debit (L/Heure)' }
+  },
+  credits: { enabled: false }
+});
+setInterval(function ( ) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var x = (new Date()).getTime(),
+          y = parseFloat(this.responseText);
+      //console.log(this.responseText);
+      if(chartW.series[0].data.length > 40) {
+        chartW.series[0].addPoint([x, y], true, true, true);
+      } else {
+        chartW.series[0].addPoint([x, y], true, false, true);
+      }
+    }
+  };
+  xhttp.open("GET", "/water", true);
+  xhttp.send();
+}, 2000) ;
+
+setInterval(function ( ) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var x = (new Date()).getTime(),
+          y = parseFloat(this.responseText);
+      //console.log(this.responseText);
+  xhttp.open("GET", "/rssi", true);
+  xhttp.send();
+}, 2000 ) ;
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML><html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compteur d'eau</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  
+  <style>
+    body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+  }
+header {
+    margin: 0;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    overflow: hidden;
+    background-image: url(winter);
+    background-size: cover;
+    color: white;
+}
+h2{
+    font-size: 2.0rem;
+}
+p{
+    font-size: 1.2rem; 
+}
+.units { 
+    font-size: 1.2rem; 
+}
+.readings { 
+    font-size: 2.0rem; 
+}
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h2>Compteur d'eau</h2>
+  </header>
+  
+<main>
+    <p class="top">
+      Date de debut : <input id="dd" type="date" value="2021-01-01">
+      Date de fin : <input id="df" type="date" value="2022-01-01">
+      <button id="btn" onclick="updateBtn()">ok</button>
+    </p>
+    <p>
+    <iframe name="Tableau Total" 
+              width="450" id='t1' 
+              height="260" 
+              style="border: 1px solid red;"
+              src="https://thingspeak.com/channels/1566233/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=8000&title=Consomation+Total&type=line&xaxis=Date&yaxis=Volume+en+litre">
+    </iframe>
+    
+    <iframe name="Tableau Debit" 
+              width="450" id='t2' 
+              height="260" 
+              style="border: 1px solid red;"
+              src="https://thingspeak.com/channels/1566233/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=8000&title=Debit+Instantane&type=line&xaxis=Date&yaxis=Litre%28s%29+par+seconde">
+    </iframe>
+    
+    </p>
+    <p>
+    <iframe name="Tableau RSSI" 
+              width="450" id='t3' 
+              height="260" 
+              style="border: 1px solid red;"
+              src="https://thingspeak.com/channels/1566233/charts/2?bgcolor=%23ffffff&color=%23ff4633&dynamic=true&results=8000&title=RSSI&type=line&xaxis=Date&yaxis=Puissance">
+    </iframe>
+    </p>
+</main>
+  
+</body>
+</html>
+
+<script>
+
+function updateBtn(){
+   //console.log("JE BOUTON");
+
+   var dateDebut = document.getElementById("dd");
+   var dateFin =  document.getElementById("df");
+
+   //console.log(dateDebut.value);
+   //console.log(dateFin.value);
+   
+   var tableau1 = document.getElementById("t1");
+   var tableau2 = document.getElementById("t2");
+   var tableau3 = document.getElementById("t3");
+   var link1 = document.getElementById("h1");
+   //console.log(tableau1.getAttribute("src"));
+
+   var test1 = "https://thingspeak.com/channels/1566233/charts/1?bgcolor=%23ffffff&color=%23d62020&results=8000&title=Consomation+Total&type=line&xaxis=Date&yaxis=Volume+en+litre"+"&end="+dateFin.value+" 00:00:00"+"&start="+dateDebut.value+" 00:00:00";
+   var test2 = "https://thingspeak.com/channels/1566233/charts/3?bgcolor=%23ffffff&color=%23d62020&results=8000&title=Debit+Instantane&type=line&xaxis=Date&yaxis=Litre%28s%29+par+seconde"+"&end="+dateFin.value+" 00:00:00"+"&start="+dateDebut.value+" 00:00:00";
+   var test3 = "https://thingspeak.com/channels/1566233/charts/2?bgcolor=%23ffffff&color=%23d62020&results=8000&title=RSSI&type=line&xaxis=Date&yaxis=Puissance"+"&end="+dateFin.value+" 00:00:00"+"&start="+dateDebut.value+" 00:00:00";
+   console.log(test1);
+
+   tableau1.src=test1;
+   tableau2.src=test2;
+   tableau3.src=test3;
+   console.log(h1.getAttribute("href"));
+}
+</script>
