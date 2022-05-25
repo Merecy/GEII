@@ -1,0 +1,2 @@
+pour compiler : 	g++ -std=c++11 Source.cpp autre.cpp -o nomexe
+pour utiliser le exe : 		./nomexe
